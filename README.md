@@ -96,6 +96,10 @@ npm run start:dev
 ✅ File uploads tested for both avatar and ad images.\
 ✅ Guard logic verified for ownership and roles.
 
+Swagger preview:
+<img width="1470" alt="Снимок экрана 2025-06-23 в 04 22 19" src="https://github.com/user-attachments/assets/22488d41-0af2-4b2e-b444-e3bf0af25aeb" />
+
+
 ---
 
 ## 👨‍💻 Author

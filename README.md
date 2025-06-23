@@ -35,7 +35,7 @@
 ```bash
 📦 src
  ┣ 📂app                # App module and global config
- ┣ 📂config             # Environment and database config
+ ┣ 📂config             # Environment and database config(need to replace)
  ┣ 📂entities           # TypeORM entities (User, Ad)
  ┣ 📂features
  ┃ ┣ 📂ad               # Ad controller, service, module, DTOs

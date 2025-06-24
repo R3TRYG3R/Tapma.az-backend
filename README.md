@@ -102,7 +102,7 @@ npm run start:dev
 ### ✅ What Happens
 
 - Docker runs a **PostgreSQL 15** container on port `5432`, using credentials from `.env`.
-- NestJS server connects to the PostgreSQL container and starts on port \*\*`3000`.
+- NestJS server connects to the PostgreSQL container and starts on port `3000`.
 - Access the Swagger API at: [http://localhost:3000/api](http://localhost:3000/api)
 
 ---

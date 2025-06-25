@@ -3,9 +3,10 @@ import {
   ApiTags,
   ApiOperation,
   ApiResponse,
-  ApiBody,
   getSchemaPath,
 } from '@nestjs/swagger';
+import { Throttle } from '@nestjs/throttler';
+
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
@@ -34,6 +35,12 @@ export class AuthController {
   }
 
   @Post('login')
+  @Throttle({
+    default: {
+      limit: 5,
+      ttl: 60,
+    },
+  })
   @ApiOperation({ summary: 'Login and get JWT token' })
   @ApiResponse({
     status: 200,

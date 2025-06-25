@@ -1,16 +1,15 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common'
+import { Throttle } from '@nestjs/throttler'
 import {
   ApiTags,
   ApiOperation,
   ApiResponse,
   getSchemaPath,
-} from '@nestjs/swagger';
-import { Throttle } from '@nestjs/throttler';
-
-import { AuthService } from './auth.service';
-import { RegisterDto } from './dto/register.dto';
-import { LoginDto } from './dto/login.dto';
-import { PublicUserDto } from '@/features/users/dto/public-user.dto';
+} from '@nestjs/swagger'
+import { AuthService } from './auth.service'
+import { RegisterDto } from './dto/register.dto'
+import { LoginDto } from './dto/login.dto'
+import { PublicUserDto } from '@/features/users/dto/public-user.dto'
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -31,16 +30,16 @@ export class AuthController {
     },
   })
   register(@Body() dto: RegisterDto) {
-    return this.authService.register(dto);
+    return this.authService.register(dto)
   }
 
-  @Post('login')
   @Throttle({
-    default: {
+    login: {
       limit: 5,
       ttl: 60,
     },
   })
+  @Post('login')
   @ApiOperation({ summary: 'Login and get JWT token' })
   @ApiResponse({
     status: 200,
@@ -54,6 +53,6 @@ export class AuthController {
     },
   })
   login(@Body() dto: LoginDto) {
-    return this.authService.login(dto);
+    return this.authService.login(dto)
   }
 }

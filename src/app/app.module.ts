@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler'
-import { APP_GUARD } from '@nestjs/core'
 
 import { UsersModule } from '@/features/users/users.module'
 import { AuthModule } from '@/features/auth/auth.module'
@@ -43,25 +41,9 @@ import { AdsModule } from '@/features/ad/ad.module'
       },
     }),
 
-    ThrottlerModule.forRoot({
-      throttlers: [
-        {
-          ttl: 60,
-          limit: 20,
-        },
-      ],
-    }),
-
     UsersModule,
     AuthModule,
     AdsModule,
-  ],
-
-  providers: [
-    {
-      provide: APP_GUARD,
-      useClass: ThrottlerGuard,
-    },
   ],
 })
 export class AppModule {}

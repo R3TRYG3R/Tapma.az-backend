@@ -1,15 +1,16 @@
-import { Controller, Post, Body } from '@nestjs/common'
-import { Throttle } from '@nestjs/throttler'
+import { Controller, Post, Body, UseInterceptors } from '@nestjs/common'
 import {
   ApiTags,
   ApiOperation,
   ApiResponse,
   getSchemaPath,
 } from '@nestjs/swagger'
+
 import { AuthService } from './auth.service'
 import { RegisterDto } from './dto/register.dto'
 import { LoginDto } from './dto/login.dto'
 import { PublicUserDto } from '@/features/users/dto/public-user.dto'
+import { RateLimitInterceptor } from '@/shared/interceptors/rate-limit.interceptor'
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -17,6 +18,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
+  @UseInterceptors(RateLimitInterceptor)
   @ApiOperation({ summary: 'Register a new user' })
   @ApiResponse({
     status: 201,
@@ -33,12 +35,6 @@ export class AuthController {
     return this.authService.register(dto)
   }
 
-  @Throttle({
-    login: {
-      limit: 5,
-      ttl: 60,
-    },
-  })
   @Post('login')
   @ApiOperation({ summary: 'Login and get JWT token' })
   @ApiResponse({

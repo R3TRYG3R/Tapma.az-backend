@@ -1,3 +1,5 @@
+// src/shared/interceptors/register-rate-limit.interceptor.ts
+
 import {
   Injectable,
   NestInterceptor,
@@ -19,7 +21,9 @@ export class RateLimitInterceptor implements NestInterceptor {
     const now = Date.now()
     const lastAttempt = ipRegisterTimestamps.get(ip)
 
-    if (lastAttempt && now - lastAttempt < 5_000) {
+    const LIMIT_TIME = 30 * 1000
+
+    if (lastAttempt && now - lastAttempt < LIMIT_TIME) {
       throw new HttpException(
         'Too many registration attempts. Please wait a few seconds.',
         HttpStatus.TOO_MANY_REQUESTS,

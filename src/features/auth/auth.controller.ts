@@ -1,4 +1,11 @@
-import { Controller, Post, Body, UseInterceptors } from '@nestjs/common'
+// src/features/auth/auth.controller.ts
+
+import {
+  Controller,
+  Post,
+  Body,
+  UseInterceptors,
+} from '@nestjs/common'
 import {
   ApiTags,
   ApiOperation,
@@ -10,7 +17,9 @@ import { AuthService } from './auth.service'
 import { RegisterDto } from './dto/register.dto'
 import { LoginDto } from './dto/login.dto'
 import { PublicUserDto } from '@/features/users/dto/public-user.dto'
-import { RateLimitInterceptor } from '@/shared/interceptors/rate-limit.interceptor'
+
+import { RateLimitInterceptor as RegisterRateLimitInterceptor } from '@/shared/interceptors/register-rate-limit.interceptor.ts'
+import { RateLimitInterceptor as LoginRateLimitInterceptor } from '@/shared/interceptors/login-rate-limit.interceptor'
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -18,7 +27,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
-  @UseInterceptors(RateLimitInterceptor)
+  @UseInterceptors(RegisterRateLimitInterceptor)
   @ApiOperation({ summary: 'Register a new user' })
   @ApiResponse({
     status: 201,
@@ -36,6 +45,7 @@ export class AuthController {
   }
 
   @Post('login')
+  @UseInterceptors(LoginRateLimitInterceptor)
   @ApiOperation({ summary: 'Login and get JWT token' })
   @ApiResponse({
     status: 200,
